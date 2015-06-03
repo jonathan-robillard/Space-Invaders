@@ -27,6 +27,7 @@ Public Class Aliens
         For i = 0 To nbAliens
             aliens(i) = New Alien
             aliens(i) = alien
+            Me.Controls.Add(aliens(i))
         Next
 
     End Sub

@@ -2,8 +2,10 @@
     Inherits Panel
 
 
-    Public Sub New(image As String)
 
+    Public Sub New(image As Image)
+
+        'Dim image As Image = image.FromFile(CheminImage)
         Me.BackgroundImage = image
         Me.Width = image.Width
         Me.Height = image.Height

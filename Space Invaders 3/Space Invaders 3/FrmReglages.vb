@@ -62,7 +62,7 @@
         Dim image As New Bitmap(panelVisua.Width, panelVisua.Height)
         panelVisua.DrawToBitmap(image, panelVisua.ClientRectangle)
         'PictureBox1.BackgroundImage = bmp
-        image.Save("../../" + TextBox1.Text)
+        image.Save("../../Images/" + TextBox1.Text)
     End Sub
 
     Private Sub BtnQuitter_Click(sender As Object, e As EventArgs) Handles BtnQuitter.Click
