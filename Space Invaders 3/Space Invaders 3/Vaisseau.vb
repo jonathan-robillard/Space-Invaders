@@ -5,7 +5,6 @@
 
     Public Sub New(image As Image, forme As Form)
         MyBase.New(image)
-
         Me.Location = New Point((forme.Width / 2) - (Me.Width / 2), forme.Height - 200)
 
     End Sub
