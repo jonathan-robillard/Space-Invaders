@@ -1,16 +1,25 @@
 ﻿Public Class Niveau
 
     Dim nbObstacles As New Integer
-    Dim aliens
-    Dim vaisseau
-    Dim timerAliens As New Timer
-    Dim forme
-    Dim directionAliens As Boolean
+    Dim aliens As Aliens
+    Dim vaisseau As Vaisseau
+    Dim timerAliensDeplacementsCotes As New Timer ' le timer qui gere les depacements de cote
+    Dim timerAliensDeplacementsBas As New Timer ' timer qui gere le deplacement vers le bas
+    Dim forme As Form
+    Dim directionAliens As Boolean ' false pour gauche et true pour droite
+
+    Dim armes(10) As Arme 'Liste d'armes
+    Dim armeEffective As Integer ' permet de savoir quelle arme ont doit utiliser
 
 
-    Public Sub New(aliens As Aliens, nbObstacles As Integer, forme As Form)
+
+    Public Sub New(aliens As Aliens, nbObstacles As Integer, arme As Arme, forme As Form)
         Me.forme = forme
         Me.aliens = aliens
+        armeEffective = 0
+        armes(armeEffective) = arme
+
+        'armes(armeEffective) = arme
 
         directionAliens = False ' false pour gauche et true pour droite
 
@@ -18,17 +27,22 @@
         vaisseau = New Vaisseau(Image.FromFile("../../Images/vaisseau.jpg"), forme)
         forme.Controls.Add(vaisseau)
 
-        timerAliens.Interval = 10 ' interval de 1 seconde
-        timerAliens.Enabled = True
-        timerAliens.Start()
-        AddHandler timerAliens.Tick, AddressOf TimerAliens_Tick 'association du timerAlien a la procedure TimerAlien_tick
+        timerAliensDeplacementsCotes.Interval = 10 ' interval de 1 seconde
+        timerAliensDeplacementsCotes.Enabled = True
+        timerAliensDeplacementsCotes.Stop()
+        AddHandler timerAliensDeplacementsCotes.Tick, AddressOf TimerAliens_Tick_Cotes 'association du timerAlien a la procedure TimerAlien_tick
+
+        timerAliensDeplacementsBas.Interval = 1000 ' interval de 1 seconde
+        timerAliensDeplacementsBas.Enabled = True
+        timerAliensDeplacementsBas.Stop()
+        AddHandler timerAliensDeplacementsBas.Tick, AddressOf TimerAliens_Tick_Bas 'association du timerAlien a la procedure TimerAlien_tick
 
         initialisation()
 
     End Sub
 
     Public Sub initialisation()
-
+        armes(armeEffective).initialiser(vaisseau)
     End Sub
 
     Public Sub keyDown(keycode As Integer)
@@ -42,9 +56,7 @@
     End Sub
 
     '   PROCEDURES DES TIMERS
-    Private Sub TimerAliens_Tick(sender As Object, e As EventArgs)
-        aliens.deplacerBas(1)
-
+    Private Sub TimerAliens_Tick_Cotes(sender As Object, e As EventArgs)
         If (directionAliens = False) Then
             aliens.deplacerGauche(1)
             If (aliens.location.x = 0) Then
@@ -56,9 +68,10 @@
                 directionAliens = False
             End If
         End If
+    End Sub
 
-        Console.WriteLine(directionAliens)
-
+    Private Sub TimerAliens_Tick_Bas(sender As Object, e As EventArgs)
+        aliens.deplacerBas(1)
         vaisseau.bringToFront() 'remet le vaisseau au premier plan pour ne pas etre caché par le flowlayoutpanel des Aliens
     End Sub
 

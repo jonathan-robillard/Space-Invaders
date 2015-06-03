@@ -73,6 +73,9 @@
     <Compile Include="Alien.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Arme.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FrmMenu.vb">
       <SubType>Form</SubType>
     </Compile>
