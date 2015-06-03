@@ -20,15 +20,18 @@ Public Class Aliens
     Dim nbAliens As Integer
     Dim aliens(100) As Alien
 
-    Public Sub New(alien As Alien, nbAliens As Integer)
+    Public Sub New(alien As Alien, nbAliens As Integer, forme As Form)
         MyBase.New()
 
         Me.nbAliens = nbAliens
-        For i = 0 To nbAliens
-            aliens(i) = New Alien
-            aliens(i) = alien
+        For i = 0 To nbAliens - 1
+            aliens(i) = New Alien(Image.FromFile("../../Images/alien.jpg"))
             Me.Controls.Add(aliens(i))
         Next
+
+        Me.Width = 800
+        Me.Height = 500
+        Me.Location = New Point((forme.Width - Me.Width) / 2, 20)
 
     End Sub
 

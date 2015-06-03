@@ -9,6 +9,8 @@
         Me.BackgroundImage = image
         Me.Width = image.Width
         Me.Height = image.Height
+        Me.BorderStyle = Windows.Forms.BorderStyle.None
+
 
     End Sub
 
