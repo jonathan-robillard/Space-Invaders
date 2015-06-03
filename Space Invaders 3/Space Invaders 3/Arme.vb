@@ -15,6 +15,7 @@
         Me.BackColor = couleur
         forme.Controls.Add(Me)
 
+
     End Sub
 
     Public Sub New(forme As Form)  ' constructeur de base qui créé une arme simple
@@ -22,11 +23,11 @@
 
         Me.forme = forme
         porteeDegats = 1
-        Me.Height = 6
-        Me.Width = 3
+        Me.Height = 10
+        Me.Width = 4
         Me.BackColor = Color.YellowGreen
         forme.Controls.Add(Me)
-
+        
     End Sub
 
     Public Sub deplacerHaut(val As Integer)
@@ -36,8 +37,10 @@
     Public Sub initialiser(vaisseau As Vaisseau)
         Me.Location = New Point(vaisseau.Location.X + vaisseau.Width / 2, vaisseau.Location.Y) 'initialise la position du "missile" à celle du vaisseau
         vaisseau.BringToFront()
+        Me.Show()
     End Sub
 
+ 
 
 
 End Class
