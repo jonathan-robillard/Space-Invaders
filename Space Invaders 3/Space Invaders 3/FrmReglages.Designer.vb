@@ -27,11 +27,12 @@ Partial Class FrmReglages
         Me.BtnQuitter = New System.Windows.Forms.Button()
         Me.BtnEnregistrer = New System.Windows.Forms.Button()
         Me.BtnEffacer = New System.Windows.Forms.Button()
+        Me.btnCouleur = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'BtnEnregistrerVisua
         '
-        Me.BtnEnregistrerVisua.Location = New System.Drawing.Point(524, 93)
+        Me.BtnEnregistrerVisua.Location = New System.Drawing.Point(524, 122)
         Me.BtnEnregistrerVisua.Name = "BtnEnregistrerVisua"
         Me.BtnEnregistrerVisua.Size = New System.Drawing.Size(100, 23)
         Me.BtnEnregistrerVisua.TabIndex = 0
@@ -47,41 +48,53 @@ Partial Class FrmReglages
         '
         'BtnQuitter
         '
-        Me.BtnQuitter.Location = New System.Drawing.Point(557, 588)
+        Me.BtnQuitter.Location = New System.Drawing.Point(527, 462)
         Me.BtnQuitter.Name = "BtnQuitter"
-        Me.BtnQuitter.Size = New System.Drawing.Size(75, 23)
+        Me.BtnQuitter.Size = New System.Drawing.Size(100, 23)
         Me.BtnQuitter.TabIndex = 3
         Me.BtnQuitter.Text = "Quitter"
         Me.BtnQuitter.UseVisualStyleBackColor = True
         '
         'BtnEnregistrer
         '
-        Me.BtnEnregistrer.Location = New System.Drawing.Point(476, 588)
+        Me.BtnEnregistrer.Location = New System.Drawing.Point(527, 433)
         Me.BtnEnregistrer.Name = "BtnEnregistrer"
-        Me.BtnEnregistrer.Size = New System.Drawing.Size(75, 23)
+        Me.BtnEnregistrer.Size = New System.Drawing.Size(100, 23)
         Me.BtnEnregistrer.TabIndex = 4
         Me.BtnEnregistrer.Text = "Enregistrer"
         Me.BtnEnregistrer.UseVisualStyleBackColor = True
         '
         'BtnEffacer
         '
-        Me.BtnEffacer.Location = New System.Drawing.Point(524, 122)
+        Me.BtnEffacer.Location = New System.Drawing.Point(524, 151)
         Me.BtnEffacer.Name = "BtnEffacer"
         Me.BtnEffacer.Size = New System.Drawing.Size(100, 23)
         Me.BtnEffacer.TabIndex = 5
         Me.BtnEffacer.Text = "Effacer"
         Me.BtnEffacer.UseVisualStyleBackColor = True
         '
+        'btnCouleur
+        '
+        Me.btnCouleur.Location = New System.Drawing.Point(524, 93)
+        Me.btnCouleur.Name = "btnCouleur"
+        Me.btnCouleur.Size = New System.Drawing.Size(100, 23)
+        Me.btnCouleur.TabIndex = 6
+        Me.btnCouleur.Text = "Couleur"
+        Me.btnCouleur.UseVisualStyleBackColor = True
+        '
         'FrmReglages
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(676, 643)
+        Me.ClientSize = New System.Drawing.Size(639, 497)
+        Me.Controls.Add(Me.btnCouleur)
         Me.Controls.Add(Me.BtnEffacer)
         Me.Controls.Add(Me.BtnEnregistrer)
         Me.Controls.Add(Me.BtnQuitter)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.BtnEnregistrerVisua)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.MaximizeBox = False
         Me.Name = "FrmReglages"
         Me.Text = "Reglages"
         Me.ResumeLayout(False)
@@ -93,4 +106,5 @@ Partial Class FrmReglages
     Friend WithEvents BtnQuitter As System.Windows.Forms.Button
     Friend WithEvents BtnEnregistrer As System.Windows.Forms.Button
     Friend WithEvents BtnEffacer As System.Windows.Forms.Button
+    Friend WithEvents btnCouleur As System.Windows.Forms.Button
 End Class

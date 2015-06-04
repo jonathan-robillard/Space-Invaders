@@ -41,3 +41,6 @@ C:\Users\Jonathan\Documents\Space-Invaders\Space Invaders 3\Space Invaders 3\obj
 C:\Users\Jonathan\Documents\Space-Invaders\Space Invaders 3\Space Invaders 3\bin\Debug\Space Invaders 3.exe
 C:\Users\Jonathan\Documents\Space-Invaders\Space Invaders 3\Space Invaders 3\bin\Debug\Space Invaders 3.pdb
 C:\Users\Jonathan\Documents\Space-Invaders\Space Invaders 3\Space Invaders 3\bin\Debug\Space Invaders 3.xml
+C:\Users\François\Documents\Projets\Space-Invaders\Space Invaders 3\Space Invaders 3\bin\Debug\Space Invaders 3.exe
+C:\Users\François\Documents\Projets\Space-Invaders\Space Invaders 3\Space Invaders 3\bin\Debug\Space Invaders 3.pdb
+C:\Users\François\Documents\Projets\Space-Invaders\Space Invaders 3\Space Invaders 3\bin\Debug\Space Invaders 3.xml
