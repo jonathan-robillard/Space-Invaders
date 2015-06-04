@@ -8,9 +8,6 @@
         Me.Location = New Point((forme.Width / 2) - (Me.Width / 2), forme.Height - 100)
     End Sub
 
-    Public Sub tirer()
-
-    End Sub
 
 
 End Class

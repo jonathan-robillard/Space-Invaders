@@ -9,19 +9,23 @@
     Dim forme As Form
     Dim directionAliens As Boolean ' false pour gauche et true pour droite
     Dim enTir As Boolean
-    Dim armes(10) As Arme 'Liste d'armes
-    Dim armeEffective As Integer ' permet de savoir quelle arme ont doit utiliser
+    Dim armesVaisseau(10) As Arme 'Liste d'armes du vaisseau
+    Dim armeEffectiveVaisseau As Integer ' permet de savoir quelle arme ont doit utiliser
 
     Dim DistanceFormePanelAliensGauche As New Integer
     Dim DistanceFormePanelAliensDroite As New Integer
+
+    Dim armeAlien As Arme
 
 
     Public Sub New(aliens As Aliens, nbObstacles As Integer, arme As Arme, forme As Form)
         Me.forme = forme
         Me.aliens = aliens
-        armeEffective = 0
-        armes(armeEffective) = arme
-        armes(armeEffective).Hide()
+        armeEffectiveVaisseau = 0
+        armesVaisseau(armeEffectiveVaisseau) = arme
+        armesVaisseau(armeEffectiveVaisseau).Hide()
+
+        armeAlien = New Arme(forme)
 
         directionAliens = False ' false pour gauche et true pour droite
 
@@ -29,7 +33,7 @@
         vaisseau = New Vaisseau(Image.FromFile("../../Images/vaisseau.jpg"), forme)
         forme.Controls.Add(vaisseau)
 
-        timerAliensDeplacementsCotes.Interval = 1000 ' 10 ms
+        timerAliensDeplacementsCotes.Interval = 10 ' 10 ms
         timerAliensDeplacementsCotes.Enabled = True
         timerAliensDeplacementsCotes.Stop()
         AddHandler timerAliensDeplacementsCotes.Tick, AddressOf TimerAliens_Tick_Cotes 'association du timerAlien a la procedure TimerAlien_tick
@@ -59,15 +63,13 @@
     Public Sub keyDown(keycode As Integer)
         If keycode = 37 Then ' si la touche est fleche gauche
             vaisseau.deplacerGauche(25)
-            timerAliensDeplacementsCotes.Stop()
-
         ElseIf keycode = 39 Then ' si la touche est fleche droite
             vaisseau.deplacerDroite(25)
 
         ElseIf keycode = 32 And enTir = False Then ' si la touche est barre espace
             enTir = True
             timerTir.Start()
-            armes(armeEffective).initialiser(vaisseau)
+            armesVaisseau(armeEffectiveVaisseau).initialiser(vaisseau)
             timerAliensDeplacementsCotes.Start()
             timerAliensDeplacementsBas.Start()
         End If
@@ -89,34 +91,41 @@
         DistanceFormePanelAliensGauche = aliens.Location.X
         DistanceFormePanelAliensDroite = forme.Width - (aliens.Location.X + aliens.Width)
 
-        Console.WriteLine(aliens(0).location)
+        'Console.WriteLine(DistanceFormePanelAliensGauche)
+        'Console.WriteLine(DistanceFormePanelAliensDroite)
+
+        ' Console.WriteLine(aliens(0).location)
     End Sub
 
     Private Sub TimerAliens_Tick_Bas(sender As Object, e As EventArgs)
-        aliens.deplacerBas(1)
+        aliens.deplacerBas(5)
         vaisseau.bringToFront() 'remet le vaisseau au premier plan pour ne pas etre caché par le flowlayoutpanel des Aliens
     End Sub
 
     Private Sub TimerTir_Tick(sender As Object, e As EventArgs)
-        armes(armeEffective).deplacerHaut(20)
+        armesVaisseau(armeEffectiveVaisseau).deplacerHaut(20)
         testerCollision(0, timerTir)
+
+
     End Sub
 
     Public Sub testerCollision(y As Integer, timer As Timer)
         'DistanceFormePanelAliensGauche = aliens.Location.X
         ' DistanceFormePanelAliensDroite = forme.Width - (aliens.Location.X + aliens.Width)
         Dim position As New Point
-        position = armes(armeEffective).Location
+        position = armesVaisseau(armeEffectiveVaisseau).Location
         If position.Y <= y Then
-            Console.WriteLine("supression tir")
+            'Console.WriteLine("supression tir")
             timer.Stop()
-            armes(armeEffective).Hide()
+            armesVaisseau(armeEffectiveVaisseau).Hide()
             enTir = False
-        ElseIf aliens.testerColision(position, DistanceFormePanelAliensGauche, DistanceFormePanelAliensDroite) = True Then
-            Console.WriteLine("supression tir")
+        ElseIf aliens.testerColision(position, DistanceFormePanelAliensGauche) = True Then
+            'Console.WriteLine("supression tir")
             timer.Stop()
-            armes(armeEffective).Hide()
+            armesVaisseau(armeEffectiveVaisseau).Hide()
             enTir = False
+            Console.WriteLine(armesVaisseau(armeEffectiveVaisseau).Location.X)
+            Console.WriteLine("")
         End If
     End Sub
 

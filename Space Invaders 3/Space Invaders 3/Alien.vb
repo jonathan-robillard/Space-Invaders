@@ -1,12 +1,21 @@
 ﻿Public Class Alien
     Inherits Objet
 
-    Public Sub New(image As Image)
+    Dim arme As Arme
+
+    Public Sub New(image As Image, arme As Arme)
         MyBase.New(image)
+
+        Me.arme = arme
+
     End Sub
 
     Public Sub New()
 
+    End Sub
+
+    Public Sub tirer(timer As Timer)
+        timer.Start()
     End Sub
 
 
@@ -27,7 +36,7 @@ Public Class Aliens
 
         Me.nbAliens = nbAliens
         For i = 0 To nbAliens - 1
-            aliens(i) = New Alien(Image.FromFile("../../Images/alien.jpg"))
+            aliens(i) = New Alien(Image.FromFile("../../Images/alien.jpg"), New Arme(forme))
             Me.Controls.Add(aliens(i))
             aliensEnVie(i) = 1
         Next
@@ -57,15 +66,21 @@ Public Class Aliens
         Me.Location = New Point(Me.Location.X, Me.Location.Y + val)
     End Sub
 
-    Public Function testerColision(position As Point, DistanceFormePanelAliensGauche As Integer, DistanceFormePanelAliensDroite As Integer)
+    Public Function testerColision(position As Point, DistanceFormePanelAliensGauche As Integer)
         Dim detruit As Boolean = False
 
         For i = 0 To nbAliens - 1
-            If (position.Y >= aliens(i).Location.Y And position.Y <= aliens(i).Location.Y + aliens(i).Height) And (position.X - DistanceFormePanelAliensGauche >= aliens(i).Location.X And position.X - DistanceFormePanelAliensDroite <= aliens(i).Location.X + aliens(i).Width) And detruit = False And aliensEnVie(i) = 1 Then
+            If (position.Y >= aliens(i).Location.Y And position.Y <= aliens(i).Location.Y + aliens(i).Height) And (position.X - DistanceFormePanelAliensGauche >= aliens(i).Location.X And position.X - DistanceFormePanelAliensGauche <= aliens(i).Location.X + aliens(i).Width) And detruit = False And aliensEnVie(i) = 1 Then
                 detruit = True
                 'aliens(i).Hide()
                 aliens(i).BackgroundImage = Nothing
                 aliensEnVie(i) = 0
+
+                Console.Write(aliens(i).Location.X + DistanceFormePanelAliensGauche)
+                Console.Write("  -  ")
+                Console.Write((aliens(i).Location.X + aliens(i).Width) + DistanceFormePanelAliensGauche)
+                Console.WriteLine("")
+
             End If
         Next
         Return detruit

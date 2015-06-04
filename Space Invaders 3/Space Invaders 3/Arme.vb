@@ -34,9 +34,13 @@
         Me.Location = New Point(Me.Location.X, Me.Location.Y - val)
     End Sub
 
-    Public Sub initialiser(vaisseau As Vaisseau)
-        Me.Location = New Point(vaisseau.Location.X + vaisseau.Width / 2, vaisseau.Location.Y) 'initialise la position du "missile" à celle du vaisseau
-        vaisseau.BringToFront()
+    Public Sub deplacerBas(val As Integer)
+        Me.Location = New Point(Me.Location.X, Me.Location.Y + val)
+    End Sub
+
+    Public Sub initialiser(objet As Objet)
+        Me.Location = New Point(objet.Location.X + objet.Width / 2, objet.Location.Y) 'initialise la position du "missile" à celle du vaisseau
+        objet.BringToFront()
         Me.Show()
     End Sub
 
