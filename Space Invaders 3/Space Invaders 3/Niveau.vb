@@ -15,10 +15,13 @@
     Dim DistanceFormePanelAliensGauche As New Integer
     Dim DistanceFormePanelAliensHaut As New Integer
 
+    Dim vitesseAliens As Integer
+
     Dim armeAlien As Arme
 
 
-    Public Sub New(aliens As Aliens, nbObstacles As Integer, arme As Arme, forme As Form)
+    Public Sub New(aliens As Aliens, nbObstacles As Integer, arme As Arme, forme As Form, vitesseAliens As Integer)
+        Me.vitesseAliens = vitesseAliens
         Me.forme = forme
         Me.aliens = aliens
         armeEffectiveVaisseau = 0
@@ -78,12 +81,12 @@
     '   PROCEDURES DES TIMERS
     Private Sub TimerAliens_Tick_Cotes(sender As Object, e As EventArgs)
         If (directionAliens = False) Then
-            aliens.deplacerGauche(1)
+            aliens.deplacerGauche(vitesseAliens)
             If (aliens.location.x = 0) Then
                 directionAliens = True
             End If
         ElseIf (directionAliens = True) Then
-            aliens.deplacerDroite(1)
+            aliens.deplacerDroite(vitesseAliens)
             If (aliens.location.x + aliens.width = forme.width) Then
                 directionAliens = False
             End If
