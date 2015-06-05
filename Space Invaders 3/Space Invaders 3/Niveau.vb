@@ -13,7 +13,7 @@
     Dim armeEffectiveVaisseau As Integer ' permet de savoir quelle arme ont doit utiliser
 
     Dim DistanceFormePanelAliensGauche As New Integer
-    Dim DistanceFormePanelAliensDroite As New Integer
+    Dim DistanceFormePanelAliensHaut As New Integer
 
     Dim armeAlien As Arme
 
@@ -56,7 +56,7 @@
     Public Sub initialisation()
         'DistanceFormePanelAliensGauche = (forme.Width - aliens.Width) / 2
         DistanceFormePanelAliensGauche = aliens.Location.X
-        DistanceFormePanelAliensDroite = forme.Width - (aliens.Location.X + aliens.Width)
+        DistanceFormePanelAliensHaut = aliens.Location.Y
         enTir = False
     End Sub
 
@@ -89,7 +89,7 @@
             End If
         End If
         DistanceFormePanelAliensGauche = aliens.Location.X
-        DistanceFormePanelAliensDroite = forme.Width - (aliens.Location.X + aliens.Width)
+        DistanceFormePanelAliensHaut = aliens.Location.Y
 
     End Sub
 
@@ -106,22 +106,17 @@
     End Sub
 
     Public Sub testerCollision(y As Integer, timer As Timer)
-        'DistanceFormePanelAliensGauche = aliens.Location.X
-        ' DistanceFormePanelAliensDroite = forme.Width - (aliens.Location.X + aliens.Width)
+       
         Dim position As New Point
         position = armesVaisseau(armeEffectiveVaisseau).Location
         If position.Y <= y Then
-            'Console.WriteLine("supression tir")
             timer.Stop()
             armesVaisseau(armeEffectiveVaisseau).Hide()
             enTir = False
-        ElseIf aliens.testerColision(position, DistanceFormePanelAliensGauche) = True Then
-            'Console.WriteLine("supression tir")
+        ElseIf aliens.testerColision(position, DistanceFormePanelAliensGauche, DistanceFormePanelAliensHaut) = True Then
             timer.Stop()
             armesVaisseau(armeEffectiveVaisseau).Hide()
             enTir = False
-            Console.WriteLine(armesVaisseau(armeEffectiveVaisseau).Location.X)
-            Console.WriteLine("")
         End If
     End Sub
 

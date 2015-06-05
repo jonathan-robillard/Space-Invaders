@@ -66,20 +66,27 @@ Public Class Aliens
         Me.Location = New Point(Me.Location.X, Me.Location.Y + val)
     End Sub
 
-    Public Function testerColision(position As Point, DistanceFormePanelAliensGauche As Integer)
+    Public Function testerColision(position As Point, DistanceFormePanelAliensGauche As Integer, DistanceFormePanelAliensHaut As Integer)
         Dim detruit As Boolean = False
 
         For i = 0 To nbAliens - 1
-            If (position.Y >= aliens(i).Location.Y And position.Y <= aliens(i).Location.Y + aliens(i).Height) And (position.X - DistanceFormePanelAliensGauche >= aliens(i).Location.X And position.X - DistanceFormePanelAliensGauche <= aliens(i).Location.X + aliens(i).Width) And detruit = False And aliensEnVie(i) = 1 Then
+            If (position.Y - DistanceFormePanelAliensHaut >= aliens(i).Location.Y And position.Y - DistanceFormePanelAliensHaut <= aliens(i).Location.Y + aliens(i).Height) And (position.X - DistanceFormePanelAliensGauche >= aliens(i).Location.X And position.X - DistanceFormePanelAliensGauche <= aliens(i).Location.X + aliens(i).Width) And detruit = False And aliensEnVie(i) = 1 Then
                 detruit = True
                 'aliens(i).Hide()
                 aliens(i).BackgroundImage = Nothing
                 aliensEnVie(i) = 0
 
-                Console.Write(aliens(i).Location.X + DistanceFormePanelAliensGauche)
-                Console.Write("  -  ")
-                Console.Write((aliens(i).Location.X + aliens(i).Width) + DistanceFormePanelAliensGauche)
                 Console.WriteLine("")
+                Console.Write((aliens(i).Location.Y - aliens(i).Height))
+                Console.Write(" -  ")
+                Console.WriteLine(aliens(i).Location.Y)
+                Console.WriteLine(position.Y)
+                Console.WriteLine("")
+
+                'Console.Write(aliens(i).Location.X + DistanceFormePanelAliensGauche)
+                ' Console.Write("  -  ")
+                ' Console.Write((aliens(i).Location.X + aliens(i).Width) + DistanceFormePanelAliensGauche)
+                ' Console.WriteLine("")
 
             End If
         Next
