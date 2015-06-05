@@ -91,10 +91,6 @@
         DistanceFormePanelAliensGauche = aliens.Location.X
         DistanceFormePanelAliensDroite = forme.Width - (aliens.Location.X + aliens.Width)
 
-        'Console.WriteLine(DistanceFormePanelAliensGauche)
-        'Console.WriteLine(DistanceFormePanelAliensDroite)
-
-        ' Console.WriteLine(aliens(0).location)
     End Sub
 
     Private Sub TimerAliens_Tick_Bas(sender As Object, e As EventArgs)

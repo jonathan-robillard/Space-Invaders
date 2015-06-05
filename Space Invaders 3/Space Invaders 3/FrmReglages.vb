@@ -8,6 +8,7 @@
     Dim panelVisua As New FlowLayoutPanel
     Dim largeur As New Integer
     Dim hauteur As New Integer
+    Dim choixColor As Color = Color.Black
 
 
     Private Sub FrmReglages_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -43,6 +44,7 @@
         panelVisua.BackColor = Color.DimGray
         Me.Controls.Add(panelVisua)
 
+        panelEditeur.Location = New Point(20, 20)
         panelEditeur.Height = hauteur * pixels(0).Height + hauteur * 2 + 2
         panelEditeur.Width = largeur * pixels(0).Width + largeur * 2 + 2
         panelEditeur.BorderStyle = BorderStyle.FixedSingle
@@ -51,11 +53,10 @@
     End Sub
 
     Private Sub pixel_click(ByVal sender As Panel, ByVal e As System.EventArgs)
-        sender.BackColor = Color.Black
+        sender.BackColor = choixColor
         pixelsSelect(sender.Tag) = 1
         Console.WriteLine(sender.Tag)
-        pixelsVisua(sender.Tag).BackColor = Color.Black
-
+        pixelsVisua(sender.Tag).BackColor = choixColor
     End Sub
 
     Private Sub BtnEnregistrerVisua_Click(sender As Object, e As EventArgs) Handles BtnEnregistrerVisua.Click
@@ -80,5 +81,12 @@
             pixelsSelect(i) = 0
             pixelsVisua(i).BackColor = Color.DimGray
         Next
+    End Sub
+
+    Private Sub btnCouleur_Click(sender As Object, e As EventArgs) Handles btnCouleur.Click
+        Dim cDialog As New ColorDialog()
+        If (cDialog.ShowDialog() = DialogResult.OK) Then
+            choixColor = cDialog.Color
+        End If
     End Sub
 End Class
