@@ -9,6 +9,7 @@
     Dim largeur As New Integer
     Dim hauteur As New Integer
     Dim choixColor As Color = Color.Black
+    Dim img As Bitmap
 
 
     Private Sub FrmReglages_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -88,5 +89,31 @@
         If (cDialog.ShowDialog() = DialogResult.OK) Then
             choixColor = cDialog.Color
         End If
+    End Sub
+
+    Private Sub btnImporter_Click(sender As Object, e As EventArgs) Handles btnImporter.Click
+        Dim dlg As New OpenFileDialog()
+        dlg.FileName = "Document"
+        dlg.DefaultExt = ".jpg"
+        dlg.Filter = "Images 11x11 (.jpg)|*.jpg"
+        Dim result? As Boolean = dlg.ShowDialog()
+        Dim cheminImage As String
+        If result = True Then
+            cheminImage = dlg.FileName
+        End If
+        Console.WriteLine(cheminImage)
+        '' Dim img As Image(Image.FromFile(cheminImage))
+        img = New Bitmap(cheminImage, True)
+        Dim i As Integer
+        Dim j As Integer
+        'If img.GetPixel(x) = 11 Or img.GetWidth() = 11 Then
+        For i = 0 To 11
+            For j = 0 To 11
+                img.GetPixel(i, j)
+            Next
+        Next
+        'Else
+        'MsgBox("L'image ne fait pas le bon format. Choisissez une image de 11x11.")
+        'End If
     End Sub
 End Class

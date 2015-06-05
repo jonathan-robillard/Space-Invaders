@@ -28,6 +28,7 @@ Partial Class FrmReglages
         Me.BtnEnregistrer = New System.Windows.Forms.Button()
         Me.BtnEffacer = New System.Windows.Forms.Button()
         Me.btnCouleur = New System.Windows.Forms.Button()
+        Me.btnImporter = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'BtnEnregistrerVisua
@@ -82,11 +83,21 @@ Partial Class FrmReglages
         Me.btnCouleur.Text = "Couleur"
         Me.btnCouleur.UseVisualStyleBackColor = True
         '
+        'btnImporter
+        '
+        Me.btnImporter.Location = New System.Drawing.Point(524, 180)
+        Me.btnImporter.Name = "btnImporter"
+        Me.btnImporter.Size = New System.Drawing.Size(100, 23)
+        Me.btnImporter.TabIndex = 7
+        Me.btnImporter.Text = "Importer"
+        Me.btnImporter.UseVisualStyleBackColor = True
+        '
         'FrmReglages
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(639, 497)
+        Me.Controls.Add(Me.btnImporter)
         Me.Controls.Add(Me.btnCouleur)
         Me.Controls.Add(Me.BtnEffacer)
         Me.Controls.Add(Me.BtnEnregistrer)
@@ -107,4 +118,5 @@ Partial Class FrmReglages
     Friend WithEvents BtnEnregistrer As System.Windows.Forms.Button
     Friend WithEvents BtnEffacer As System.Windows.Forms.Button
     Friend WithEvents btnCouleur As System.Windows.Forms.Button
+    Friend WithEvents btnImporter As System.Windows.Forms.Button
 End Class
