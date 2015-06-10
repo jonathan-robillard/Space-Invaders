@@ -27,26 +27,28 @@ Public Class Aliens
     Inherits FlowLayoutPanel
 
     Dim nbAliens As Integer
-    Dim aliens(100) As Alien
+    Dim aliens(300) As Alien
+    Dim aliensEnVie(300) As Integer
+    Dim nbAliensEnVie As Integer
 
-    Dim aliensEnVie(100) As Integer
-
-    Public Sub New(alien As Alien, nbAliens As Integer, forme As Form)
+    Public Sub New(alien As Alien, nbAliensLarge As Integer, nbAliensHaut As Integer)
         MyBase.New()
 
-        Me.nbAliens = nbAliens
+
+        Me.nbAliens = nbAliensLarge * nbAliensHaut
+        nbAliensEnVie = nbAliensLarge * nbAliensHaut
+
         For i = 0 To nbAliens - 1
-            aliens(i) = New Alien(Image.FromFile("../../Images/alien.jpg"), New Arme(forme))
+            aliens(i) = New Alien(Image.FromFile("../../Images/alien.jpg"), New Arme())
             Me.Controls.Add(aliens(i))
             aliensEnVie(i) = 1
         Next
 
-        Me.Width = 800
-        Me.Height = 500
-        Me.Location = New Point((forme.Width - Me.Width) / 2, 20)
-
-        '  DistanceFormePanelAliens = (forme.Width - Me.Width) / 2
-
+        Me.BackColor = Color.Green
+        
+        Me.Width = (nbAliensLarge * aliens(0).Width) + (Me.Padding.Left * 2) + ((nbAliensLarge) * aliens(0).Margin.Left) * 2
+        Me.Height = (nbAliensHaut * aliens(0).Height) + (Me.Padding.Top * 2) + ((nbAliensHaut) * aliens(0).Margin.Top) * 2
+        Me.Location = New Point((FrmJeu.Width - Me.Width) / 2, 50)
     End Sub
 
 
@@ -74,12 +76,18 @@ Public Class Aliens
                 detruit = True
                 aliens(i).BackgroundImage = Nothing
                 aliensEnVie(i) = 0
+                nbAliensEnVie -= 1
             End If
         Next
         Return detruit
-
-
     End Function
+
+    Public Function getNbAliensEnVie()
+        Return nbAliensEnVie
+    End Function
+
+
+
 
 
 End Class

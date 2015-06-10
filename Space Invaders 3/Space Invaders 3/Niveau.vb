@@ -6,7 +6,6 @@
     Dim timerAliensDeplacementsCotes As New Timer ' le timer qui gere les depacements de cote
     Dim timerAliensDeplacementsBas As New Timer ' timer qui gere le deplacement vers le bas
     Dim timerTir As New Timer ' timer qui gere le deplacement des tirs
-    Dim forme As Form
     Dim directionAliens As Boolean ' false pour gauche et true pour droite
     Dim enTir As Boolean
     Dim armesVaisseau(10) As Arme 'Liste d'armes du vaisseau
@@ -19,22 +18,28 @@
 
     Dim armeAlien As Arme
 
+    Dim AffichageVies As New FlowLayoutPanel
+    Dim panelsVies(5) As Vaisseau
+    Dim viesRestantes As Integer
 
-    Public Sub New(aliens As Aliens, nbObstacles As Integer, arme As Arme, forme As Form, vitesseAliens As Integer)
+
+    Public Sub New(aliens As Aliens, nbObstacles As Integer, arme As Arme, vitesseAliens As Integer)
         Me.vitesseAliens = vitesseAliens
-        Me.forme = forme
         Me.aliens = aliens
         armeEffectiveVaisseau = 0
         armesVaisseau(armeEffectiveVaisseau) = arme
         armesVaisseau(armeEffectiveVaisseau).Hide()
-
-        armeAlien = New Arme(forme)
-
+        armeAlien = New Arme()
         directionAliens = False ' false pour gauche et true pour droite
 
-        forme.Controls.Add(aliens)
-        vaisseau = New Vaisseau(Image.FromFile("../../Images/vaisseau.jpg"), forme)
-        forme.Controls.Add(vaisseau)
+        FrmJeu.Controls.Add(aliens)
+        aliens.Hide()
+
+        viesRestantes = 3
+
+        vaisseau = New Vaisseau(Image.FromFile("../../Images/vaisseau.jpg"))
+        FrmJeu.Controls.Add(vaisseau)
+        vaisseau.Hide()
 
         timerAliensDeplacementsCotes.Interval = 10 ' 10 ms
         timerAliensDeplacementsCotes.Enabled = True
@@ -51,16 +56,32 @@
         timerTir.Stop()
         AddHandler timerTir.Tick, AddressOf TimerTir_Tick 'association du timerAlien a la procedure TimerAlien_tick
 
-        initialisation()
+        For i = 0 To viesRestantes - 1
+            panelsVies(i) = New Vaisseau(Image.FromFile("../../Images/vaisseau.jpg"))
+            AffichageVies.Controls.Add(panelsVies(i))
+        Next
 
+
+        AffichageVies.Height = panelsVies(0).Height
+        AffichageVies.Width = (panelsVies(0).Width * viesRestantes) + (panelsVies(0).Margin.Left * (viesRestantes) * 2)
+        'AffichageVies.BackColor = Color.Green
+        AffichageVies.Location = New Point(FrmJeu.Width - AffichageVies.Width - 100, 0)
+        FrmJeu.Controls.Add(AffichageVies)
 
     End Sub
 
     Public Sub initialisation()
-        'DistanceFormePanelAliensGauche = (forme.Width - aliens.Width) / 2
+
+        vaisseau.Show()
+        aliens.Show()
         DistanceFormePanelAliensGauche = aliens.Location.X
         DistanceFormePanelAliensHaut = aliens.Location.Y
         enTir = False
+    End Sub
+
+    Public Sub effaceurNiveau()
+        FrmJeu.Controls.Remove(aliens)
+        FrmJeu.Controls.Remove(vaisseau)
     End Sub
 
     Public Sub keyDown(keycode As Integer)
@@ -68,6 +89,12 @@
             vaisseau.deplacerGauche(25)
         ElseIf keycode = 39 Then ' si la touche est fleche droite
             vaisseau.deplacerDroite(25)
+        ElseIf keycode = 27 Then
+            Console.WriteLine("niv suivant")
+            effaceurNiveau()
+            FrmJeu.niveauSuivant()
+
+
 
         ElseIf keycode = 32 And enTir = False Then ' si la touche est barre espace
             enTir = True
@@ -82,12 +109,12 @@
     Private Sub TimerAliens_Tick_Cotes(sender As Object, e As EventArgs)
         If (directionAliens = False) Then
             aliens.deplacerGauche(vitesseAliens)
-            If (aliens.location.x = 0) Then
+            If (aliens.Location.X <= 0) Then
                 directionAliens = True
             End If
         ElseIf (directionAliens = True) Then
             aliens.deplacerDroite(vitesseAliens)
-            If (aliens.location.x + aliens.width = forme.width) Then
+            If (aliens.Location.X + aliens.Width >= FrmJeu.Width) Then
                 directionAliens = False
             End If
         End If
@@ -121,6 +148,25 @@
             armesVaisseau(armeEffectiveVaisseau).Hide()
             enTir = False
         End If
+
+        If aliens.getNbAliensEnVie() = 0 Then
+            gagner()
+        End If
+
+    End Sub
+
+    Public Sub gagner()
+        timerAliensDeplacementsCotes.Stop()
+        timerAliensDeplacementsBas.Stop()
+        effaceurNiveau()
+        Dim msgBoxGagner As DialogResult = MessageBox.Show("Vous avez gagné ! Voulez vous passer au niveau suivant ?", "Niveau réussi", MessageBoxButtons.YesNo)
+        If msgBoxGagner = Windows.Forms.DialogResult.Yes Then
+            Console.WriteLine("continuer")
+            FrmJeu.niveauSuivant()
+        ElseIf msgBoxGagner = Windows.Forms.DialogResult.No Then
+            Console.WriteLine("quitter")
+        End If
+
     End Sub
 
 End Class

@@ -3,9 +3,9 @@
 
     Dim image As Image
 
-    Public Sub New(image As Image, forme As Form)
+    Public Sub New(image As Image)
         MyBase.New(image)
-        Me.Location = New Point((forme.Width / 2) - (Me.Width / 2), forme.Height - 100)
+        Me.Location = New Point((FrmJeu.Width / 2) - (Me.Width / 2), FrmJeu.Height - 100)
     End Sub
 
 
