@@ -29,6 +29,8 @@ Partial Class FrmReglages
         Me.BtnEffacer = New System.Windows.Forms.Button()
         Me.btnCouleur = New System.Windows.Forms.Button()
         Me.btnImporter = New System.Windows.Forms.Button()
+        Me.ComboBoxDifficulte = New System.Windows.Forms.ComboBox()
+        Me.lblDifficulté = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'BtnEnregistrerVisua
@@ -92,11 +94,31 @@ Partial Class FrmReglages
         Me.btnImporter.Text = "Importer"
         Me.btnImporter.UseVisualStyleBackColor = True
         '
+        'ComboBoxDifficulte
+        '
+        Me.ComboBoxDifficulte.FormattingEnabled = True
+        Me.ComboBoxDifficulte.Items.AddRange(New Object() {"Facile", "Medium", "Difficile"})
+        Me.ComboBoxDifficulte.Location = New System.Drawing.Point(524, 312)
+        Me.ComboBoxDifficulte.Name = "ComboBoxDifficulte"
+        Me.ComboBoxDifficulte.Size = New System.Drawing.Size(100, 21)
+        Me.ComboBoxDifficulte.TabIndex = 8
+        '
+        'lblDifficulté
+        '
+        Me.lblDifficulté.AutoSize = True
+        Me.lblDifficulté.Location = New System.Drawing.Point(547, 283)
+        Me.lblDifficulté.Name = "lblDifficulté"
+        Me.lblDifficulté.Size = New System.Drawing.Size(54, 13)
+        Me.lblDifficulté.TabIndex = 9
+        Me.lblDifficulté.Text = "Difficulté :"
+        '
         'FrmReglages
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(639, 497)
+        Me.Controls.Add(Me.lblDifficulté)
+        Me.Controls.Add(Me.ComboBoxDifficulte)
         Me.Controls.Add(Me.btnImporter)
         Me.Controls.Add(Me.btnCouleur)
         Me.Controls.Add(Me.BtnEffacer)
@@ -119,4 +141,6 @@ Partial Class FrmReglages
     Friend WithEvents BtnEffacer As System.Windows.Forms.Button
     Friend WithEvents btnCouleur As System.Windows.Forms.Button
     Friend WithEvents btnImporter As System.Windows.Forms.Button
+    Friend WithEvents ComboBoxDifficulte As System.Windows.Forms.ComboBox
+    Friend WithEvents lblDifficulté As System.Windows.Forms.Label
 End Class

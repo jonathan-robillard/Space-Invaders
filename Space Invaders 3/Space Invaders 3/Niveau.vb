@@ -6,6 +6,9 @@
     Dim timerAliensDeplacementsCotes As New Timer ' le timer qui gere les depacements de cote
     Dim timerAliensDeplacementsBas As New Timer ' timer qui gere le deplacement vers le bas
     Dim timerTir As New Timer ' timer qui gere le deplacement des tirs
+
+    Dim timersTirsAliens(100) As Timer
+
     Dim directionAliens As Boolean ' false pour gauche et true pour droite
     Dim enTir As Boolean
     Dim armesVaisseau(10) As Arme 'Liste d'armes du vaisseau
@@ -21,6 +24,8 @@
     Dim AffichageVies As New FlowLayoutPanel
     Dim panelsVies(5) As Vaisseau
     Dim viesRestantes As Integer
+
+    Dim val As Integer
 
 
     Public Sub New(aliens As Aliens, nbObstacles As Integer, arme As Arme, vitesseAliens As Integer)
@@ -40,6 +45,15 @@
         vaisseau = New Vaisseau(Image.FromFile("../../Images/vaisseau.jpg"))
         FrmJeu.Controls.Add(vaisseau)
         vaisseau.Hide()
+
+        'For i = 0 To 100
+        '    timersTirsAliens(i) = New Timer
+        '    timersTirsAliens(i).Enabled = True
+        '    timersTirsAliens(i).Interval = 100
+        '    timersTirsAliens(i).Stop()
+        '    AddHandler timersTirsAliens(i).Tick, AddressOf TimerTirAliens_Tick
+        '    timersTirsAliens(i).Tag = i
+        'Next
 
         timerAliensDeplacementsCotes.Interval = 10 ' 10 ms
         timerAliensDeplacementsCotes.Enabled = True
@@ -64,20 +78,28 @@
 
         AffichageVies.Height = panelsVies(0).Height
         AffichageVies.Width = (panelsVies(0).Width * viesRestantes) + (panelsVies(0).Margin.Left * (viesRestantes) * 2)
-        'AffichageVies.BackColor = Color.Green
         AffichageVies.Location = New Point(FrmJeu.Width - AffichageVies.Width - 100, 0)
         FrmJeu.Controls.Add(AffichageVies)
+
+
+        
 
     End Sub
 
     Public Sub initialisation()
-
         vaisseau.Show()
         aliens.Show()
         DistanceFormePanelAliensGauche = aliens.Location.X
         DistanceFormePanelAliensHaut = aliens.Location.Y
         enTir = False
     End Sub
+
+    Public Sub reinitialiser()
+        aliens.reinitialiser()
+        vaisseau.reinitialiser()
+        
+    End Sub
+
 
     Public Sub effaceurNiveau()
         FrmJeu.Controls.Remove(aliens)
@@ -89,13 +111,22 @@
             vaisseau.deplacerGauche(25)
         ElseIf keycode = 39 Then ' si la touche est fleche droite
             vaisseau.deplacerDroite(25)
-        ElseIf keycode = 27 Then
+        ElseIf keycode = 27 Then ' si la touche est echap
+            timerAliensDeplacementsBas.Stop()
+            timerAliensDeplacementsCotes.Stop()
+            Dim pause As DialogResult = MessageBox.Show("Voulez vous quitter la partie ?", "PAUSE", MessageBoxButtons.YesNo)
+            If pause = DialogResult.No Then
+                timerAliensDeplacementsBas.Start()
+                timerAliensDeplacementsCotes.Start()
+            ElseIf pause = DialogResult.Yes Then
+                FrmJeu.Dispose()
+                FrmMenu.Show()
+            End If
+
+        ElseIf keycode = 65 Then
             Console.WriteLine("niv suivant")
             effaceurNiveau()
             FrmJeu.niveauSuivant()
-
-
-
         ElseIf keycode = 32 And enTir = False Then ' si la touche est barre espace
             enTir = True
             timerTir.Start()
@@ -125,14 +156,29 @@
 
     Private Sub TimerAliens_Tick_Bas(sender As Object, e As EventArgs)
         aliens.deplacerBas(5)
-        vaisseau.bringToFront() 'remet le vaisseau au premier plan pour ne pas etre caché par le flowlayoutpanel des Aliens
+        vaisseau.BringToFront() 'remet le vaisseau au premier plan pour ne pas etre caché par le flowlayoutpanel des Aliens
+
+        If aliens.Location.Y + aliens.Height >= vaisseau.Location.Y Then
+            perdre()
+        End If
+
+        '  Dim val As Integer
+        ' val = aliens.randomAlien()
+
+        ' aliens.initialiserTirAlien(val)
+        ' timersTirsAliens(val).Start()
+
+
     End Sub
 
     Private Sub TimerTir_Tick(sender As Object, e As EventArgs)
         armesVaisseau(armeEffectiveVaisseau).deplacerHaut(20)
         testerCollision(0, timerTir)
+    End Sub
 
-
+    Private Sub TimerTirAliens_Tick(sender As Object, e As EventArgs)
+        'aliens.initialiserTirAlien(5)
+        aliens.deplacerTirBas(20, val)
     End Sub
 
     Public Sub testerCollision(y As Integer, timer As Timer)
@@ -165,8 +211,45 @@
             FrmJeu.niveauSuivant()
         ElseIf msgBoxGagner = Windows.Forms.DialogResult.No Then
             Console.WriteLine("quitter")
+            FrmJeu.Dispose()
+            FrmMenu.Show()
         End If
 
     End Sub
+
+    Public Sub perdre()
+        timerAliensDeplacementsCotes.Stop()
+        timerAliensDeplacementsBas.Stop()
+
+        If viesRestantes = 0 Then
+            Dim msgBoxPerdre As DialogResult = MessageBox.Show("Vous avez perdu ! Voulez vous recommencer ce niveau ?", "Niveau raté", MessageBoxButtons.YesNo)
+            If msgBoxPerdre = Windows.Forms.DialogResult.Yes Then
+                Console.WriteLine("recommencer")
+                FrmJeu.recommencerAuDebut()
+                viesRestantes = 3
+                For i = 0 To viesRestantes - 1
+                    panelsVies(i).Show()
+                Next
+            ElseIf msgBoxPerdre = Windows.Forms.DialogResult.No Then
+                Console.WriteLine("quitter")
+                FrmJeu.Dispose()
+                FrmMenu.Show()
+            End If
+        Else
+            panelsVies(3 - viesRestantes).Hide()
+            viesRestantes -= 1
+            FrmJeu.recommencerNiveau()
+            ' enlever vie
+
+
+
+
+        End If
+
+       
+
+    End Sub
+
+
 
 End Class

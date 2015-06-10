@@ -5,8 +5,10 @@
 
     Public Sub New(image As Image, arme As Arme)
         MyBase.New(image)
-
         Me.arme = arme
+
+        FrmJeu.Controls.Add(arme)
+        arme.Hide()
 
     End Sub
 
@@ -16,6 +18,14 @@
 
     Public Sub tirer(timer As Timer)
         timer.Start()
+    End Sub
+
+    Public Sub deplacertirBas(val As Integer)
+        arme.deplacerBas(val)
+    End Sub
+
+    Public Sub initialiserTir()
+        arme.initialiser(Me)
     End Sub
 
 
@@ -42,9 +52,11 @@ Public Class Aliens
             aliens(i) = New Alien(Image.FromFile("../../Images/alien.jpg"), New Arme())
             Me.Controls.Add(aliens(i))
             aliensEnVie(i) = 1
+
+
         Next
 
-        Me.BackColor = Color.Green
+
         
         Me.Width = (nbAliensLarge * aliens(0).Width) + (Me.Padding.Left * 2) + ((nbAliensLarge) * aliens(0).Margin.Left) * 2
         Me.Height = (nbAliensHaut * aliens(0).Height) + (Me.Padding.Top * 2) + ((nbAliensHaut) * aliens(0).Margin.Top) * 2
@@ -77,6 +89,8 @@ Public Class Aliens
                 aliens(i).BackgroundImage = Nothing
                 aliensEnVie(i) = 0
                 nbAliensEnVie -= 1
+                FrmJeu.Score += 10
+                FrmJeu.lblScore.Text = FrmJeu.Score
             End If
         Next
         Return detruit
@@ -86,8 +100,28 @@ Public Class Aliens
         Return nbAliensEnVie
     End Function
 
+    Public Sub reinitialiser()
+        For i = 0 To nbAliens - 1
+            aliensEnVie(i) = 1
+            aliens(i).BackgroundImage = Image.FromFile("../../Images/alien.jpg")
+            nbAliensEnVie = nbAliens
+        Next
+        Me.Location = New Point((FrmJeu.Width - Me.Width) / 2, 50)
+    End Sub
 
+    Public Function randomAlien()
+        Dim random As New Random(), aliensSelectionne As Integer
+        aliensSelectionne = random.Next(0, nbAliens - 1)
+        Return aliensSelectionne
+    End Function
 
+    Public Sub deplacerTirBas(val As Integer, num As Integer)
+        aliens(num).deplacertirBas(val)
+    End Sub
+
+    Public Sub initialiserTirAlien(num As Integer)
+        aliens(num).initialiserTir()
+    End Sub
 
 
 End Class

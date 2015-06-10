@@ -11,7 +11,6 @@
     Dim choixColor As Color = Color.Black
     Dim img As Bitmap
 
-
     Private Sub FrmReglages_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         largeur = 11
         hauteur = 11
@@ -51,6 +50,9 @@
         panelEditeur.BorderStyle = BorderStyle.FixedSingle
         Me.Controls.Add(panelEditeur)
 
+        ComboBoxDifficulte.SelectedText = "Facile"
+        
+
     End Sub
 
     Private Sub pixel_click(ByVal sender As Panel, ByVal e As System.EventArgs)
@@ -69,10 +71,26 @@
 
     Private Sub BtnQuitter_Click(sender As Object, e As EventArgs) Handles BtnQuitter.Click
         Me.Dispose()
+        FrmMenu.Show()
     End Sub
 
     
     Private Sub BtnEnregistrer_Click(sender As Object, e As EventArgs) Handles BtnEnregistrer.Click
+
+        If ComboBoxDifficulte.SelectedItem = "Facile" Then
+            FrmMenu.vitesseDeplacementCotesAliens = 5
+            FrmMenu.vitesseDescenteAliens = 1
+        ElseIf ComboBoxDifficulte.SelectedItem = "Medium" Then
+            FrmMenu.vitesseDeplacementCotesAliens = 6
+            FrmMenu.vitesseDescenteAliens = 2
+        ElseIf ComboBoxDifficulte.SelectedItem = "Difficile" Then
+            FrmMenu.vitesseDeplacementCotesAliens = 8
+            FrmMenu.vitesseDescenteAliens = 3
+        End If
+
+        Console.WriteLine(ComboBoxDifficulte.SelectedItem)
+
+        MsgBox("Paramètres enregistrés !")
 
     End Sub
 
@@ -115,5 +133,9 @@
         'Else
         'MsgBox("L'image ne fait pas le bon format. Choisissez une image de 11x11.")
         'End If
+    End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles lblDifficulté.Click
+
     End Sub
 End Class
