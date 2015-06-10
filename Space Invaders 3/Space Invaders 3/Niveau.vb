@@ -1,16 +1,15 @@
-﻿Public Class Niveau
+﻿Public Class Niveau ' Cette classe sert à pouvoir jouer plusieurs niveaux avec des caracteristiques differentes dans la même partie
 
-    Dim nbObstacles As New Integer
-    Dim aliens As Aliens
-    Dim vaisseau As Vaisseau
+    Dim aliens As Aliens ' on déclare un groupe d'aliens
+    Dim vaisseau As Vaisseau ' on déclare un vaisseau
     Dim timerAliensDeplacementsCotes As New Timer ' le timer qui gere les depacements de cote
     Dim timerAliensDeplacementsBas As New Timer ' timer qui gere le deplacement vers le bas
     Dim timerTir As New Timer ' timer qui gere le deplacement des tirs
 
-    Dim timersTirsAliens(100) As Timer
+    ' Dim timersTirsAliens(100) As Timer
 
     Dim directionAliens As Boolean ' false pour gauche et true pour droite
-    Dim enTir As Boolean
+    Dim enTir As Boolean ' boleen qui sert a savoir si une arme est en cours d'utilisation par le vaisseau
     Dim armesVaisseau(10) As Arme 'Liste d'armes du vaisseau
     Dim armeEffectiveVaisseau As Integer ' permet de savoir quelle arme ont doit utiliser
 
@@ -82,7 +81,7 @@
         FrmJeu.Controls.Add(AffichageVies)
 
 
-        
+
 
     End Sub
 
@@ -97,7 +96,7 @@
     Public Sub reinitialiser()
         aliens.reinitialiser()
         vaisseau.reinitialiser()
-        
+
     End Sub
 
 
@@ -162,13 +161,6 @@
             perdre()
         End If
 
-        '  Dim val As Integer
-        ' val = aliens.randomAlien()
-
-        ' aliens.initialiserTirAlien(val)
-        ' timersTirsAliens(val).Start()
-
-
     End Sub
 
     Private Sub TimerTir_Tick(sender As Object, e As EventArgs)
@@ -176,20 +168,20 @@
         testerCollision(0, timerTir)
     End Sub
 
-    Private Sub TimerTirAliens_Tick(sender As Object, e As EventArgs)
-        'aliens.initialiserTirAlien(5)
-        aliens.deplacerTirBas(20, val)
-    End Sub
+    'Private Sub TimerTirAliens_Tick(sender As Object, e As EventArgs)
+    '    'aliens.initialiserTirAlien(5)
+    '    'aliens.deplacerTirBas(20, val)
+    'End Sub
 
     Public Sub testerCollision(y As Integer, timer As Timer)
-       
+
         Dim position As New Point
         position = armesVaisseau(armeEffectiveVaisseau).Location
         If position.Y <= y Then
             timer.Stop()
             armesVaisseau(armeEffectiveVaisseau).Hide()
             enTir = False
-        ElseIf aliens.testerColision(position, DistanceFormePanelAliensGauche, DistanceFormePanelAliensHaut) = True Then
+        ElseIf aliens.testerCollision(position, DistanceFormePanelAliensGauche, DistanceFormePanelAliensHaut) = True Then
             timer.Stop()
             armesVaisseau(armeEffectiveVaisseau).Hide()
             enTir = False
@@ -246,7 +238,7 @@
 
         End If
 
-       
+
 
     End Sub
 

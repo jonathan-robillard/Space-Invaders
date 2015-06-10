@@ -7,14 +7,14 @@
         Me.BackgroundImage = image
         Me.Width = image.Width 'On regle la taille du panel en fonction de la taille de l'image 
         Me.Height = image.Height
-        Me.BorderStyle = Windows.Forms.BorderStyle.None
+        Me.BorderStyle = Windows.Forms.BorderStyle.None ' on enlève la bordure du panel pour des raisons esthetiques
     End Sub
 
     Public Sub New()
 
     End Sub
 
-    Public Sub deplacerGauche(val As Integer)
+    Public Sub deplacerGauche(val As Integer) ' Methodes de deplacement qui serviront aux différents objets créés ( aliens, vaisseau) pour se déplacer
         Me.Location = New Point(Me.Location.X - val, Me.Location.Y)
     End Sub
 
