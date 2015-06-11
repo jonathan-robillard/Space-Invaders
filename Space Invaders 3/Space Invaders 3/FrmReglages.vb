@@ -1,6 +1,7 @@
 ﻿Public Class FrmReglages
 
-
+	
+	'' Propriétés des éléments et variables
     Dim pixels(1000) As Panel 'Tableau de panels pour l'editeur d objet
     Dim pixelsVisua(1000) As Panel 'Tableau de panels pour la visualisation a la bonne echelle de l'objet
     Dim pixelsSelect(1000) As Integer ' Tableau de integer permettant de savoir quels pixels sont colories
@@ -12,9 +13,11 @@
     Dim img As Bitmap
 
     Private Sub FrmReglages_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        '' On définit la taille de l'image finale
         largeur = 11
         hauteur = 11
 
+        ' On définit un panel qui contient 11x11 pixels
         For i = 0 To largeur * hauteur - 1
             pixelsSelect(i) = 0
             pixels(i) = New Panel
@@ -36,14 +39,16 @@
             pixelsVisua(i).Tag = i
             panelVisua.Controls.Add(pixelsVisua(i))
         Next
-
+		
+		' Propriété de l'apperçu
         panelVisua.Location = New Point(550, 10)
         panelVisua.Height = hauteur * pixelsVisua(0).Height + 2
         panelVisua.Width = largeur * pixelsVisua(0).Width + 2
         panelVisua.BorderStyle = BorderStyle.FixedSingle
         panelVisua.BackColor = Color.DimGray
         Me.Controls.Add(panelVisua)
-
+		
+		' Propriétés de l'éditeur
         panelEditeur.Location = New Point(20, 20)
         panelEditeur.Height = hauteur * pixels(0).Height + hauteur * 2 + 2
         panelEditeur.Width = largeur * pixels(0).Width + largeur * 2 + 2
@@ -51,10 +56,11 @@
         Me.Controls.Add(panelEditeur)
 
         ComboBoxDifficulte.SelectedText = "Facile"
-        
+
 
     End Sub
 
+    '' Méthode permettant de colorier un pixel
     Private Sub pixel_click(ByVal sender As Panel, ByVal e As System.EventArgs)
         sender.BackColor = choixColor
         pixelsSelect(sender.Tag) = 1
@@ -62,6 +68,7 @@
         pixelsVisua(sender.Tag).BackColor = choixColor
     End Sub
 
+    '' Méthode permettant d'exporter le dessin en image jpg
     Private Sub BtnEnregistrerVisua_Click(sender As Object, e As EventArgs) Handles BtnEnregistrerVisua.Click
         Dim image As New Bitmap(panelVisua.Width, panelVisua.Height)
         panelVisua.DrawToBitmap(image, panelVisua.ClientRectangle)
@@ -69,14 +76,17 @@
         image.Save("../../Images/" + TextBox1.Text)
     End Sub
 
+    ' Quitter
     Private Sub BtnQuitter_Click(sender As Object, e As EventArgs) Handles BtnQuitter.Click
         Me.Dispose()
         FrmMenu.Show()
     End Sub
 
-    
+
+    ' Bouton enregistrer
     Private Sub BtnEnregistrer_Click(sender As Object, e As EventArgs) Handles BtnEnregistrer.Click
 
+        ' On définit le niveau et donc les vitesses (vert/hor)
         If ComboBoxDifficulte.SelectedItem = "Facile" Then
             FrmMenu.vitesseDeplacementCotesAliens = 5
             FrmMenu.vitesseDescenteAliens = 1
@@ -94,6 +104,7 @@
 
     End Sub
 
+    ' Bouton qui permet de reset les carrés
     Private Sub BtnEffacer_Click(sender As Object, e As EventArgs) Handles BtnEffacer.Click
         For i = 0 To largeur * hauteur - 1
             pixels(i).BackColor = Color.White
@@ -102,6 +113,7 @@
         Next
     End Sub
 
+    '' Bouton qui permet de changer la couleur (avec un boite de dialogue)
     Private Sub btnCouleur_Click(sender As Object, e As EventArgs) Handles btnCouleur.Click
         Dim cDialog As New ColorDialog()
         If (cDialog.ShowDialog() = DialogResult.OK) Then
@@ -109,11 +121,14 @@
         End If
     End Sub
 
+    '' Bouton qui permet d'importer un image
     Private Sub btnImporter_Click(sender As Object, e As EventArgs) Handles btnImporter.Click
         Dim dlg As New OpenFileDialog()
+		' Propriétés du document
         dlg.FileName = "Document"
         dlg.DefaultExt = ".jpg"
         dlg.Filter = "Images 11x11 (.jpg)|*.jpg"
+		' On choisi le chemin (dialogue)
         Dim result? As Boolean = dlg.ShowDialog()
         Dim cheminImage As String
         If result = True Then
