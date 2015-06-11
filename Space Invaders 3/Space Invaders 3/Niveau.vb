@@ -164,33 +164,28 @@
         testerCollision(0, timerTir)
     End Sub
 
-    'Private Sub TimerTirAliens_Tick(sender As Object, e As EventArgs)
-    '    'aliens.initialiserTirAlien(5)
-    '    'aliens.deplacerTirBas(20, val)
-    'End Sub
-
     Public Sub testerCollision(y As Integer, timer As Timer)
 
         Dim position As New Point
         position = armesVaisseau(armeEffectiveVaisseau).Location
-        If position.Y <= y Then
-            timer.Stop()
-            armesVaisseau(armeEffectiveVaisseau).Hide()
-            enTir = False
-        ElseIf aliens.testerCollision(position, DistanceFormePanelAliensGauche, DistanceFormePanelAliensHaut) = True Then
+        If position.Y <= y Then ' si la position du tir arrive a celle de y ( en axe ordonnee)
+            timer.Stop() ' on arrete le timer de tir 
+            armesVaisseau(armeEffectiveVaisseau).Hide() ' on cache le tir
+            enTir = False ' on n'est plus en periode de tir donc booleen = false
+        ElseIf aliens.testerCollision(position, DistanceFormePanelAliensGauche, DistanceFormePanelAliensHaut) = True Then 'on teste si la position du tir est egale a celle d'un alien
             timer.Stop()
             armesVaisseau(armeEffectiveVaisseau).Hide()
             enTir = False
         End If
 
-        If aliens.getNbAliensEnVie() = 0 Then
+        If aliens.getNbAliensEnVie() = 0 Then ' on teste le nombre d'aliens restants
             gagner()
         End If
 
     End Sub
 
     Public Sub gagner()
-        timerAliensDeplacementsCotes.Stop()
+        timerAliensDeplacementsCotes.Stop() ' on arrete tous les timers et on propose au joueurs de continuer si'il reste des niveaux ou de quitter
         timerAliensDeplacementsBas.Stop()
         effaceurNiveau()
         Dim msgBoxGagner As DialogResult = MessageBox.Show("Vous avez gagné ! Voulez vous passer au niveau suivant ?", "Niveau réussi", MessageBoxButtons.YesNo)
@@ -206,7 +201,7 @@
     End Sub
 
     Public Sub perdre()
-        timerAliensDeplacementsCotes.Stop()
+        timerAliensDeplacementsCotes.Stop() ' si on perd, on arrete les timers, et on recommence le niveau si'il reste des vies, si non on demande au joueur s'il veut recommencer la partie au debut ou quitter
         timerAliensDeplacementsBas.Stop()
 
         If viesRestantes = 0 Then
@@ -227,17 +222,6 @@
             panelsVies(3 - viesRestantes).Hide()
             viesRestantes -= 1
             FrmJeu.recommencerNiveau()
-            ' enlever vie
-
-
-
-
         End If
-
-
-
     End Sub
-
-
-
 End Class
