@@ -10,18 +10,18 @@
 
     Dim directionAliens As Boolean ' false pour gauche et true pour droite
     Dim enTir As Boolean ' boleen qui sert a savoir si une arme est en cours d'utilisation par le vaisseau
-    Dim armesVaisseau(10) As Arme 'Liste d'armes du vaisseau
+    Dim armesVaisseau(10) As Arme 'tableau d'armes du vaisseau
     Dim armeEffectiveVaisseau As Integer ' permet de savoir quelle arme ont doit utiliser
 
-    Dim DistanceFormePanelAliensGauche As New Integer
-    Dim DistanceFormePanelAliensHaut As New Integer
+    Dim DistanceFormePanelAliensGauche As New Integer ' Variables qui serviront a definir la distance entre la formeJeu et le groupe d'alien sur la gauche
+    Dim DistanceFormePanelAliensHaut As New Integer ' Pareil mais pour le haut'
 
     Dim vitesseAliens As Integer
 
     Dim armeAlien As Arme
 
-    Dim AffichageVies As New FlowLayoutPanel
-    Dim panelsVies(5) As Vaisseau
+    Dim AffichageVies As New FlowLayoutPanel ' FlowLayoutPanel pour afficher les vies sous forme de vaisseaux
+    Dim panelsVies(5) As Vaisseau ' Creattion d'un tableau de panels pour stocker les vies
     Dim viesRestantes As Integer
 
     Dim val As Integer
@@ -32,20 +32,20 @@
         Me.aliens = aliens
         armeEffectiveVaisseau = 0
         armesVaisseau(armeEffectiveVaisseau) = arme
-        armesVaisseau(armeEffectiveVaisseau).Hide()
+        armesVaisseau(armeEffectiveVaisseau).Hide() ' on cache l'arme du vaisseau
         armeAlien = New Arme()
         directionAliens = False ' false pour gauche et true pour droite
 
-        FrmJeu.Controls.Add(aliens)
-        aliens.Hide()
+        FrmJeu.Controls.Add(aliens) ' ajout du groupe d'aliens au controles du FrmJeu
+        aliens.Hide() ' on cache les aliens
 
         viesRestantes = 3
 
-        vaisseau = New Vaisseau(Image.FromFile("../../Images/vaisseau.jpg"))
-        FrmJeu.Controls.Add(vaisseau)
-        vaisseau.Hide()
+        vaisseau = New Vaisseau(Image.FromFile("../../Images/vaisseau.jpg")) ' on initialise le vaisseau avec une image située dans le dossier du programme
+        FrmJeu.Controls.Add(vaisseau) ' ajout du vaisseau a FrmJeu
+        vaisseau.Hide() ' on cache le vaisseau
 
-        'For i = 0 To 100
+        'For i = 0 To 100 ' Pas finit, cette partie etait destinée a creer des timers pour que les aliens puissent tirer
         '    timersTirsAliens(i) = New Timer
         '    timersTirsAliens(i).Enabled = True
         '    timersTirsAliens(i).Interval = 100
@@ -54,7 +54,7 @@
         '    timersTirsAliens(i).Tag = i
         'Next
 
-        timerAliensDeplacementsCotes.Interval = 10 ' 10 ms
+        timerAliensDeplacementsCotes.Interval = 10 ' 10 ms ' Reglages des timers
         timerAliensDeplacementsCotes.Enabled = True
         timerAliensDeplacementsCotes.Stop()
         AddHandler timerAliensDeplacementsCotes.Tick, AddressOf TimerAliens_Tick_Cotes 'association du timerAlien a la procedure TimerAlien_tick
@@ -64,53 +64,49 @@
         timerAliensDeplacementsBas.Stop()
         AddHandler timerAliensDeplacementsBas.Tick, AddressOf TimerAliens_Tick_Bas 'association du timerAlien a la procedure TimerAlien_tick
 
-        timerTir.Interval = 1 ' interval de 1 seconde
+        timerTir.Interval = 1 ' interval de 1 ms seconde
         timerTir.Enabled = True
         timerTir.Stop()
         AddHandler timerTir.Tick, AddressOf TimerTir_Tick 'association du timerAlien a la procedure TimerAlien_tick
 
-        For i = 0 To viesRestantes - 1
+        For i = 0 To viesRestantes - 1 ' On initialise les vie de la meme façon que l'on a initialisé le vaisseau
             panelsVies(i) = New Vaisseau(Image.FromFile("../../Images/vaisseau.jpg"))
             AffichageVies.Controls.Add(panelsVies(i))
         Next
 
-
-        AffichageVies.Height = panelsVies(0).Height
-        AffichageVies.Width = (panelsVies(0).Width * viesRestantes) + (panelsVies(0).Margin.Left * (viesRestantes) * 2)
+        AffichageVies.Height = panelsVies(0).Height  ' O, règle la taille du FlowLayoutPanel des vie
+        AffichageVies.Width = (panelsVies(0).Width * viesRestantes) + (panelsVies(0).Margin.Left * (viesRestantes) * 2) ' on prend en compte le nombre de vies et les marges entre les vies
         AffichageVies.Location = New Point(FrmJeu.Width - AffichageVies.Width - 100, 0)
         FrmJeu.Controls.Add(AffichageVies)
 
-
-
-
     End Sub
 
-    Public Sub initialisation()
-        vaisseau.Show()
+    Public Sub initialisation() ' On utilisera quand on lancera le niveau pour la premiere fois
+        vaisseau.Show() ' affichage des controles
         aliens.Show()
-        DistanceFormePanelAliensGauche = aliens.Location.X
+        DistanceFormePanelAliensGauche = aliens.Location.X ' Et redefinition des positions des controles
         DistanceFormePanelAliensHaut = aliens.Location.Y
         enTir = False
     End Sub
 
-    Public Sub reinitialiser()
+    Public Sub reinitialiser() ' On utilisera cette fonction a chaque fois que l'on relancera le niveau
         aliens.reinitialiser()
         vaisseau.reinitialiser()
 
     End Sub
 
 
-    Public Sub effaceurNiveau()
+    Public Sub effaceurNiveau() ' On efface les controles du niveau, si celui ci est réussi
         FrmJeu.Controls.Remove(aliens)
         FrmJeu.Controls.Remove(vaisseau)
     End Sub
 
-    Public Sub keyDown(keycode As Integer)
+    Public Sub keyDown(keycode As Integer) 'Fonction appelée dans FrmJEu lorsque une touche clavier est pressée
         If keycode = 37 Then ' si la touche est fleche gauche
             vaisseau.deplacerGauche(25)
         ElseIf keycode = 39 Then ' si la touche est fleche droite
             vaisseau.deplacerDroite(25)
-        ElseIf keycode = 27 Then ' si la touche est echap
+        ElseIf keycode = 27 Then ' si la touche est echap, on affiche le menu de pause
             timerAliensDeplacementsBas.Stop()
             timerAliensDeplacementsCotes.Stop()
             Dim pause As DialogResult = MessageBox.Show("Voulez vous quitter la partie ?", "PAUSE", MessageBoxButtons.YesNo)
@@ -122,15 +118,15 @@
                 FrmMenu.Show()
             End If
 
-        ElseIf keycode = 65 Then
-            Console.WriteLine("niv suivant")
+        ElseIf keycode = 65 Then ' si la touche est "a", commande de triche pour passer au niveau suivant directement
+            Console.WriteLine("niveau suivant")
             effaceurNiveau()
             FrmJeu.niveauSuivant()
-        ElseIf keycode = 32 And enTir = False Then ' si la touche est barre espace
-            enTir = True
-            timerTir.Start()
-            armesVaisseau(armeEffectiveVaisseau).initialiser(vaisseau)
-            timerAliensDeplacementsCotes.Start()
+        ElseIf keycode = 32 And enTir = False Then ' si la touche est barre espace, o ntire
+            enTir = True  ' le vaisseau tir donc, le boolen en tir est égal a vrai
+            timerTir.Start() ' on demarre le timer de tir
+            armesVaisseau(armeEffectiveVaisseau).initialiser(vaisseau) ' on initialise la position du tir à la position du vaisseau
+            timerAliensDeplacementsCotes.Start() ' En cas de debut de partie, les aliens commencent à bouger
             timerAliensDeplacementsBas.Start()
         End If
     End Sub
@@ -139,12 +135,12 @@
     Private Sub TimerAliens_Tick_Cotes(sender As Object, e As EventArgs)
         If (directionAliens = False) Then
             aliens.deplacerGauche(vitesseAliens)
-            If (aliens.Location.X <= 0) Then
+            If (aliens.Location.X <= 0) Then ' si les aliens arrivent a la limite gauche, on change de direction
                 directionAliens = True
             End If
         ElseIf (directionAliens = True) Then
             aliens.deplacerDroite(vitesseAliens)
-            If (aliens.Location.X + aliens.Width >= FrmJeu.Width) Then
+            If (aliens.Location.X + aliens.Width >= FrmJeu.Width) Then  ' inversement, on retourne a gauche
                 directionAliens = False
             End If
         End If
