@@ -153,7 +153,7 @@
         aliens.deplacerBas(5)
         vaisseau.BringToFront() 'remet le vaisseau au premier plan pour ne pas etre caché par le flowlayoutpanel des Aliens
 
-        If aliens.Location.Y + aliens.Height >= vaisseau.Location.Y Then
+        If aliens.Location.Y + aliens.Height >= vaisseau.Location.Y Then ' si les aliens arrivent au niveau du vaisseau, on perd
             perdre()
         End If
 
